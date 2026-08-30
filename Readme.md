@@ -93,7 +93,6 @@ A condensed change list is in [section 10](#10-changelog-condensed) of this page
 
 ## 10. Changelog (condensed)
 
-Language: ASD-STE100 (Simplified Technical English).
 
 This section is a short list of differences. For the full text, see `CHANGELOG.md`.
 
