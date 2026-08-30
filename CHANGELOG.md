@@ -4,6 +4,8 @@ Language: ASD-STE100 (Simplified Technical English).
 
 This document describes WOA Deployer for Lumia **2.8.0**. The previous public version is **2.7.1**.
 
+A condensed list of the same sections is at the bottom of `Readme.md` (GitHub repository home page).
+
 ## 1. Identification
 
 | Item | Value |

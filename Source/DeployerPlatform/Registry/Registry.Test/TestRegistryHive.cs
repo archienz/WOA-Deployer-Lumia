@@ -607,7 +607,7 @@ namespace Registry.Test
         [Test]
         public void OneOff()
         {
-            var r = new RegistryHive(@"C:\Users\eric\Desktop\SAM");
+            var r = new RegistryHive(@"..\..\..\Hives\SAM");
             r.RecoverDeleted = true;
             r.ParseHive();
         }
