@@ -143,3 +143,16 @@ WOA Deployer wrote `Logs\Log-YYYYMMDD.txt` next to `WoaDeployer.exe`. The succes
 ```
 Deployment successful
 ```
+
+## 7. First boot after that log line
+
+Deployer success is not the same as a finished Windows first boot.
+
+| What you see | What it was | What to do |
+|---|---|---|
+| "The computer restarted unexpectedly…" loop | Setup still marked in progress; Surface `SilentProvisioner`; Win11 TPM/RAM checks | Run `tools\fix-win11-setup-loop.cmd` while the phone is in Mass Storage. See `Docs/Fix-First-Boot-Loop.md`. |
+| Login asks for a password; two Administrator tiles | No OOBE user was created; built-in Administrator is disabled | Sign-in options → the account that is not the disabled Administrator. Wait if it says Preparing Windows. |
+| Ease of Access does nothing | Do not replace `utilman.exe` with an x64 program | The phone is ARM64. Use the script on the PC. |
+| Bluescreen then reboot | FM radio services crashed; no minidump yet | The script disables those services and turns auto-reboot off. |
+
+On this phone, after the hive fix, **Preparing Windows** is progress. Leave it on charge and wait.

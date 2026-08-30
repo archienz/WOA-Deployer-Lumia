@@ -87,6 +87,8 @@ Upstream project: [WOA-Project/WOA-Deployer-Lumia](https://github.com/WOA-Projec
 ## 9. Documents
 
 - `Docs/Worked-Install-Talkman-22621.md` — files and steps that completed on a Lumia 950 Talkman (WPInternals unlock through WOA Deployer 2.8.1)
+- `Docs/Fix-First-Boot-Loop.md` — setup-loop, login, and bluescreen after deploy
+- `tools/fix-win11-setup-loop.cmd` — run from the PC while the phone is in Mass Storage
 - `Docs/` — upstream guides
 
 A condensed change list is in [section 10](#10-changelog-condensed) of this page.
