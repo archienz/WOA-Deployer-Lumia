@@ -1,6 +1,6 @@
 @echo off
 setlocal EnableExtensions EnableDelayedExpansion
-title WOA Deployer 2.8.0  -  FFU flash
+title WOA Deployer 2.8.1  -  FFU flash
 color 0B
 
 net session >nul 2>&1
@@ -28,7 +28,7 @@ if "%FFU%"=="" (
 
 echo.
 echo ============================================================
-echo   WOA Deployer 2.8.0  -  FFU flash
+echo   WOA Deployer 2.8.1  -  FFU flash
 echo ============================================================
 echo.
 echo This procedure erases the phone.

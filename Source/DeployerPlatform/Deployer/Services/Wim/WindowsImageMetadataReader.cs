@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Serilog;
 
 namespace Deployer.Services.Wim
@@ -79,56 +80,84 @@ namespace Deployer.Services.Wim
 
         protected override Stream GetXmlMetadataStream(Stream wim)
         {
-            var outputstream = new MemoryStream();
-            var wimwriter = new BinaryWriter(outputstream);
-            using (var wimsecstream = wim)
+            wim.Seek(0, SeekOrigin.Begin);
+            var header = new byte[208];
+            if (wim.Read(header, 0, header.Length) < header.Length)
             {
-                using (var wimsecreader = new BinaryReader(wimsecstream))
-                {
-                    var bytes = new byte[]
-                    {
-                        0x4D, 0x53, 0x57, 0x49, 0x4D
-                    };
-
-                    Log.Verbose("(WIM) Finding Magic Bytes...");
-
-                    var start = WindowsImageMetadataReader.FindPosition(wimsecstream, bytes);
-
-                    Log.Verbose("(WIM) Found Magic Bytes at " + start);
-
-                    Log.Verbose("(WIM) Finding WIM XML Data...");
-
-                    var endbytes = new byte[]
-                    {
-                        0x3C, 0x00, 0x2F, 0x00, 0x57, 0x00, 0x49, 0x00, 0x4D, 0x00, 0x3E, 0x00
-                    };
-
-                    wimsecstream.Seek(start + 72, SeekOrigin.Begin);
-                    var buffer = new byte[24];
-                    wimsecstream.Read(buffer, 0, 24);
-                    var may = WindowsImageMetadataReader.ToInt64LittleEndian(buffer, 8);
-                    wimsecstream.Seek(start, SeekOrigin.Begin);
-
-                    Log.Verbose("(WIM) Found WIM XML Data at " + start + may + 2);
-
-                    wimsecstream.Seek(start + may + 2, SeekOrigin.Begin);
-
-                    for (var i = wimsecstream.Position; i < wimsecstream.Length - endbytes.Length; i++)
-                    {
-                        if (BitConverter.ToString(wimsecreader.ReadBytes(12)) == BitConverter.ToString(endbytes))
-                        {
-                            wimwriter.Write(endbytes);
-                            break;
-                        }
-
-                        wimsecstream.Seek(-12, SeekOrigin.Current);
-                        wimwriter.Write(wimsecreader.ReadBytes(1));
-                    }
-                }
+                throw new InvalidOperationException("The WIM header is truncated.");
             }
 
-            outputstream.Seek(0, SeekOrigin.Begin);
-            return outputstream;
+            if (header[0] != 0x4D || header[1] != 0x53 || header[2] != 0x57 || header[3] != 0x49 || header[4] != 0x4D)
+            {
+                throw new InvalidOperationException("The file does not start with a WIM header.");
+            }
+
+            var xmlSizeField = ToUInt64LittleEndian(header, 72);
+            var xmlOffset = ToInt64LittleEndian(header, 80);
+            var xmlOriginalSize = ToInt64LittleEndian(header, 88);
+            var xmlStoredSize = (long)(xmlSizeField & 0x00FFFFFFFFFFFFFFUL);
+            var xmlFlags = (byte)(xmlSizeField >> 56);
+
+            Log.Verbose("(WIM) XML resource offset={Offset} stored={Stored} original={Original} flags=0x{Flags:X2}",
+                xmlOffset, xmlStoredSize, xmlOriginalSize, xmlFlags);
+
+            if (xmlOffset < 0 || xmlStoredSize <= 0 || xmlOffset + xmlStoredSize > wim.Length)
+            {
+                throw new InvalidOperationException("The WIM XML resource location is not valid.");
+            }
+
+            if ((xmlFlags & 0x04) != 0)
+            {
+                throw new InvalidOperationException("Compressed WIM XML is not supported. Export the image with DISM.");
+            }
+
+            wim.Seek(xmlOffset, SeekOrigin.Begin);
+            var stored = new byte[xmlStoredSize];
+            var read = 0;
+            while (read < stored.Length)
+            {
+                var n = wim.Read(stored, read, stored.Length - read);
+                if (n <= 0)
+                {
+                    break;
+                }
+
+                read += n;
+            }
+
+            if (read < stored.Length)
+            {
+                throw new InvalidOperationException("The WIM XML resource is truncated.");
+            }
+
+            var text = DecodeWimXml(stored);
+            var utf8 = Encoding.UTF8.GetBytes(text);
+            return new MemoryStream(utf8);
+        }
+
+        private static string DecodeWimXml(byte[] stored)
+        {
+            if (stored.Length >= 2 && stored[0] == 0xFF && stored[1] == 0xFE)
+            {
+                return Encoding.Unicode.GetString(stored, 2, stored.Length - 2);
+            }
+
+            if (stored.Length >= 2 && stored[0] == 0xFE && stored[1] == 0xFF)
+            {
+                return Encoding.BigEndianUnicode.GetString(stored, 2, stored.Length - 2);
+            }
+
+            if (stored.Length >= 3 && stored[0] == 0xEF && stored[1] == 0xBB && stored[2] == 0xBF)
+            {
+                return Encoding.UTF8.GetString(stored, 3, stored.Length - 3);
+            }
+
+            if (stored.Length >= 2 && stored[1] == 0)
+            {
+                return Encoding.Unicode.GetString(stored);
+            }
+
+            return Encoding.UTF8.GetString(stored);
         }
     }    
 }

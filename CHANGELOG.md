@@ -2,7 +2,7 @@
 
 Language: ASD-STE100 (Simplified Technical English).
 
-This document describes WOA Deployer for Lumia **2.8.0**. The previous public version is **2.7.1**.
+This document describes WOA Deployer for Lumia **2.8.1**. The previous public version is **2.8.0**. The base version is **2.7.1**.
 
 A condensed list of the same sections is at the bottom of `Readme.md` (GitHub repository home page).
 
@@ -11,14 +11,15 @@ A condensed list of the same sections is at the bottom of `Readme.md` (GitHub re
 | Item | Value |
 |---|---|
 | Product name | WOA Deployer for Lumia |
-| New version | 2.8.0 |
+| New version | 2.8.1 |
+| Previous version | 2.8.0 |
 | Base version | 2.7.1 |
 | Date | 2026-08-30 |
 | Upstream | WOA-Project / SuperJMN |
 
 ## 2. Summary of differences
 
-Version 2.8.0 is a modified 2.7.1. The new version:
+Version 2.8.1 is a modified 2.7.1. It includes the 2.8.0 changes. The new version also:
 
 - Does not download deployment scripts when local scripts are present
 - Asks the operator to confirm a wipe of Windows 10 Mobile
@@ -29,6 +30,7 @@ Version 2.8.0 is a modified 2.7.1. The new version:
 - Uses the host DISM program on Windows 10 1809 or later
 - Records a SHA-256 hash for each download
 - Does not contain a path to a private user profile
+- Can read a WIM file that wimlib or a UUP converter created
 
 The new version does not change the primary task of the software: deploy Windows on ARM to a Lumia 950 or Lumia 950 XL.
 
@@ -130,6 +132,14 @@ The new version does not change the primary task of the software: deploy Windows
 
 **Effect:** The software does not crash on a malformed product.dat.
 
+### A13. WIM metadata (2.8.1)
+
+**Before:** The WIM metadata reader skipped two bytes of the XML resource and treated UTF-16 XML as UTF-8. A WIM from wimlib or UUP dump showed “Invalid WIM file”.
+
+**After:** The reader uses the WIM header XML resource. It converts UTF-16 XML to UTF-8 for the serializer.
+
+**Effect:** The software can open a WIM that DISM can read, including a WIM that a UUP converter created.
+
 ## 4. Section B — Safety changes
 
 ### B1. Wipe confirmation
@@ -180,7 +190,7 @@ After a file download, the software calculates SHA-256 and writes it to the log.
 
 ### C6. HTTP user agent
 
-The HTTP client sends the user agent `WOADeployer-Lumia/2.8.0`.
+The HTTP client sends the user agent `WOADeployer-Lumia/2.8.1`.
 
 ### C7. Command-line launch
 

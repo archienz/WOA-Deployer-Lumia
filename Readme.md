@@ -1,4 +1,4 @@
-# WOA Deployer for Lumia 2.8.0
+# WOA Deployer for Lumia 2.8.1
 
 This software installs Windows on ARM on a Lumia 950 (Talkman) or a Lumia 950 XL (Cityman).
 
@@ -25,7 +25,7 @@ Do not use this procedure on an AT&T Lumia 950 (RM-1105) unless you know that yo
 
 ## 3. Install the graphical application
 
-1. Download `WOA-Deployer-Lumia-2.8.0-win-x86.zip` from the GitHub Releases page.
+1. Download `WOA-Deployer-Lumia-2.8.1-win-x86.zip` from the GitHub Releases page.
 2. Extract the archive to a folder.
 3. Right-click `WoaDeployer.exe`.
 4. Select **Run as administrator**.
@@ -99,16 +99,16 @@ This section is a short list of differences. For the full text, see `CHANGELOG.m
 | Item | Value |
 |---|---|
 | Product name | WOA Deployer for Lumia |
-| New version | 2.8.0 |
-| Previous version | 2.7.1 |
+| New version | 2.8.1 |
+| Previous version | 2.8.0 (modified 2.7.1) |
 | Date | 2026-08-30 |
 | Upstream | WOA-Project / SuperJMN |
 
-Version 2.8.0 is a modified 2.7.1. The primary task did not change: deploy Windows on ARM to a Lumia 950 or a Lumia 950 XL.
+Version 2.8.1 is a modified 2.7.1 with the 2.8.0 safety and bug fixes. The primary task did not change: deploy Windows on ARM to a Lumia 950 or a Lumia 950 XL.
 
 ### 10.2 Section A — Bug fixes
 
-| ID | Defect in 2.7.1 | Change in 2.8.0 |
+| ID | Defect in 2.7.1 / 2.8.0 | Change in 2.8.1 |
 |---|---|---|
 | A1 | Disk stream increased the position by the requested count. A short read caused a wrong offset. | The stream increases the position by the number of bytes that it reads. |
 | A2 | The software opened the phone disk with no share. The open can fail when Windows mounts the disk. | The software opens the disk with share for read and write. |
@@ -122,6 +122,7 @@ Version 2.8.0 is a modified 2.7.1. The primary task did not change: deploy Windo
 | A10 | The space allocator can set a Data size that is zero or less than zero. | If the calculated size is not positive, the software does not resize the partition. |
 | A11 | The software can try to open a script that does not exist. | The software checks that the file or folder exists. |
 | A12 | A `product.dat` line without a separator caused a crash. | The software ignores a bad line. If TYPE or NAME is missing, the software stops. |
+| A13 | A WIM from wimlib or UUP dump showed “Invalid WIM file”. The reader skipped the UTF-16 BOM and treated the XML as UTF-8. | The reader uses the WIM header XML resource and converts UTF-16 XML to UTF-8. |
 
 ### 10.3 Section B — Safety changes
 
@@ -142,7 +143,7 @@ Version 2.8.0 is a modified 2.7.1. The primary task did not change: deploy Windo
 | C3 | The `bootaa64.efi` patch applies only to Windows build 17763. |
 | C4 | On Windows 10 version 1809 or later, the software uses the host DISM program. The bundled DISM program is the fallback. |
 | C5 | After a download, the software calculates SHA-256. If a `*.sha256` file is next to the download, a hash mismatch stops the operation. |
-| C6 | HTTP user agent is `WOADeployer-Lumia/2.8.0`. |
+| C6 | HTTP user agent is `WOADeployer-Lumia/2.8.1`. |
 | C7 | If the operator starts the GUI with arguments, the software starts `Deployer.Lumia.Console.exe` when that file is present. |
 | C8 | User interface text includes `.wim` and `.esd`. |
 | C9 | Graphical programs target .NET Framework 4.8. Version 2.7.1 used 4.7.2 and 4.6.2. |

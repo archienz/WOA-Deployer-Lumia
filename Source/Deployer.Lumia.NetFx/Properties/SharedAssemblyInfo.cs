@@ -5,7 +5,7 @@
 // associated with an assembly.
 [assembly: AssemblyCompany("SuperJMN")]
 [assembly: AssemblyProduct("WOA Deployer")]
-[assembly: AssemblyCopyright("Copyright © 2019 José Manuel Nieto (SuperJMN). Modifications © 2026 WOA Deployer Lumia 2.8.0 contributors.")]
+[assembly: AssemblyCopyright("Copyright © 2019 José Manuel Nieto (SuperJMN). Modifications © 2026 WOA Deployer Lumia 2.8.1 contributors.")]
 [assembly: AssemblyTrademark("")]
 
 //In order to begin building localizable applications, set
@@ -27,5 +27,5 @@
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.8.0")]
-[assembly: AssemblyFileVersion("2.8.0.0")]
+[assembly: AssemblyVersion("2.8.1")]
+[assembly: AssemblyFileVersion("2.8.1.0")]

@@ -43,7 +43,7 @@ namespace Deployer.Lumia.NetFx
             block.ExportFactory(() =>
             {
                 var client = new HttpClient { Timeout = TimeSpan.FromMinutes(30) };
-                client.DefaultRequestHeaders.UserAgent.ParseAdd("WOADeployer-Lumia/2.8.0");
+                client.DefaultRequestHeaders.UserAgent.ParseAdd("WOADeployer-Lumia/2.8.1");
                 return client;
             }).Lifestyle.Singleton();
             block.ExportFactory(() => new GitHubClient(new ProductHeaderValue("WOADeployer"))).As<IGitHubClient>().Lifestyle.Singleton();
