@@ -86,6 +86,7 @@ Upstream project: [WOA-Project/WOA-Deployer-Lumia](https://github.com/WOA-Projec
 
 ## 9. Documents
 
+- `Docs/Worked-Install-Talkman-22621.md` — files and steps that completed on a Lumia 950 Talkman (WPInternals unlock through WOA Deployer 2.8.1)
 - `Docs/` — upstream guides
 
 A condensed change list is in [section 10](#10-changelog-condensed) of this page.
