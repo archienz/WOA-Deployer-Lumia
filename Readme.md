@@ -86,13 +86,11 @@ Upstream project: [WOA-Project/WOA-Deployer-Lumia](https://github.com/WOA-Projec
 
 ## 9. Documents
 
-- `CHANGELOG.md` — full change list in Simplified Technical English (ASD-STE100)
 - `Docs/` — upstream guides
 
 A condensed change list is in [section 10](#10-changelog-condensed) of this page.
 
 ## 10. Changelog (condensed)
-
 
 This section is a short list of differences. For the full text, see `CHANGELOG.md`.
 
