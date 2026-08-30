@@ -1,0 +1,16 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/Source/Deployer.Lumia/Logs
+**/bin/
+**/obj/
+*.user
+*.suo
+*.userosscache
+artifacts/
+dist/
+*.nupkg
+.DS_Store
+

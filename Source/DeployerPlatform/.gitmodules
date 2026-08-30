@@ -1,0 +1,12 @@
+[submodule "Registry"]
+	path = Registry
+	url = https://github.com/EricZimmerman/Registry.git
+[submodule "Zafiro"]
+	path = Zafiro
+	url = https://github.com/SuperJMN/Zafiro.git
+[submodule "RunProcessAsTask"]
+	path = RunProcessAsTask
+	url = https://github.com/SuperJMN/RunProcessAsTask.git
+[submodule "Markdown.XAML"]
+	path = Markdown.XAML
+	url = https://github.com/SuperJMN/Markdown.XAML.git

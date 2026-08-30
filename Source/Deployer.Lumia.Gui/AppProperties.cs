@@ -1,0 +1,10 @@
+using Deployer.Lumia.Gui.Properties;
+
+namespace Deployer.Lumia.Gui
+{
+    public static class AppProperties
+    {
+        public const string GitHubBaseUrl = "https://github.com/archienz/WOA-Deployer-Lumia";
+        public static string AppTitle => string.Format(Resources.AppTitle, AppVersionMixin.VersionString);
+    }
+}
